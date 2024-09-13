@@ -15,8 +15,6 @@ const getTodos = async (req, res = response) => {
 const createTodo = async (req, res = response) => {
 
   const todo = new Todo(req.body);
-  console.log("req:", req.uid);
-  // console.log(req);
 
   try {
 
@@ -83,7 +81,8 @@ const updateTodo = async (req, res = response) => {
 const deleteTodo = async (req, res = response) => {
 
   const todoId = req.params.id;
-  const uid = req.uid;
+  // Todo: validation to delete todo only if user is the same
+  // const uid = req.uid;
 
   try {
 
@@ -95,12 +94,14 @@ const deleteTodo = async (req, res = response) => {
         msg: 'Todo no encontrado por id'
       });
     }
-    if (todo.user.toString() !== uid) {
-      return res.status(401).json({
-        ok: false,
-        msg: 'No tiene privilegio de eliminar este todo'
-      });
-    }
+
+    // Todo: validation to delete todo only if user is the same
+    // if (todo.user.toString() !== uid) {
+    //   return res.status(401).json({
+    //     ok: false,
+    //     msg: 'No tiene privilegio de eliminar este todo'
+    //   });
+    // }
 
     await Todo.findByIdAndDelete(todoId);
 
